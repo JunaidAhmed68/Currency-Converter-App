@@ -19,7 +19,7 @@ https://sweet-cat-b4a487.netlify.app/
 
 ## Screenshots
 
-<img width="960" alt="image" src="https://github.com/user-attachments/assets/6af68b02-1d19-4a82-b4b0-61afb95aec28" />
+<img width="959" alt="image" src="https://github.com/user-attachments/assets/a7bd2e56-b0f2-4307-a3af-10576a107df3" />
 
 
 ## Installation
