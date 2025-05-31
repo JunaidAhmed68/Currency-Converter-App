@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import CurrencyDropdown from "./dropdown";
+import CurrencyDropdown from "../components/dropdown";
 import { HiArrowsRightLeft } from "react-icons/hi2";
 
 const API_KEY = "9345653790ab576bf1055dad";
@@ -93,7 +93,7 @@ const CurrencyConverter = () => {
 
   return (
     <div
-      className={`max-w-xl mx-auto my-10 p-5 rounded-lg shadow-md bg-white/30 backdrop-blur-md transition-all duration-700 ease-in-out transform ${
+      className={`max-w-xl mx-auto my-10 p-5 rounded-lg shadow-md bg-white/10 backdrop-blur-md transition-all duration-700 ease-in-out transform ${
         animate ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
       }`}
     >
