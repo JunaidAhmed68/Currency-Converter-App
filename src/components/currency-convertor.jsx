@@ -87,11 +87,11 @@ const CurrencyConverter = () => {
   };
 
   return (
-    <div className={`max-w-xl mx-auto my-10 p-5 rounded-lg shadow-md bg-white/80 backdrop-blur-md transition-all duration-700 ease-in-out transform ${
+    <div className={`max-w-xl mx-auto my-10 p-5 rounded-lg shadow-md bg-white/30 backdrop-blur-md transition-all duration-700 ease-in-out transform ${
     animate ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-  }`}
+  }` }
 >
-      <h2 className="mb-5 text-2xl font-semibold text-gray-700">
+      <h2 className="mb-5 text-2xl font-semibold text-white-700 ">
         Currency Converter
       </h2>
 

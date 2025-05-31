@@ -3,10 +3,8 @@
 @tailwind utilities;
 
 body {
-  background-image: url('./assets/bg image.jpg'); /* 👈 fix path */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+background: linear-gradient(180deg, #000000, #0d1b2a, #1b263b);
+
   min-height: 100vh;
   margin: 0;
 }
