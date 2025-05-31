@@ -8,7 +8,7 @@ function AboutUs() {
       </p>
 
       <p className="text-lg mb-4">
-        This app was built by passionate Junaid Ahmed and Muhammad Areeb  from <strong>SMIU</strong>, combining what we've learned about React and javascript into something useful for everyone.
+        This app was built by passionate <strong>Junaid Ahmed</strong> and <strong>Muhammad Areeb</strong>  from <strong>SMIU</strong>, combining what we've learned about React and javascript into something useful for everyone.
       </p>
 
       <p className="text-lg">
