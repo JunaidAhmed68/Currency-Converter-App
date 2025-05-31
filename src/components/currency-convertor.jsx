@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import CurrencyDropdown from "./dropdown";
 import { HiArrowsRightLeft } from "react-icons/hi2";
 
-const API_KEY = "9345653790ab576bf1055dad"; // Your API key
+const API_KEY = "9345653790ab576bf1055dad";
 const BASE_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}`;
 
 const CurrencyConverter = () => {
@@ -18,10 +18,8 @@ const CurrencyConverter = () => {
     JSON.parse(localStorage.getItem("favorites")) || ["PKR", "EUR"]
   );
 
-  // useRef hook to auto-focus the input
   const inputRef = useRef(null);
 
-  // Fetch list of currencies (keys from conversion_rates for USD base)
   const fetchCurrencies = async () => {
     try {
       const res = await fetch(`${BASE_URL}/latest/USD`);
@@ -39,16 +37,21 @@ const CurrencyConverter = () => {
 
   useEffect(() => {
     setAnimate(true);
-    inputRef.current?.focus(); // Focus the input on mount
+    inputRef.current?.focus();
   }, []);
 
   useEffect(() => {
     fetchCurrencies();
   }, []);
 
-  // Convert currency by fetching rates for fromCurrency
+  // Dynamically convert when any dependency changes
+  useEffect(() => {
+    convertCurrency();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [amount, fromCurrency, toCurrency]);
+
   const convertCurrency = async () => {
-    if (!amount) return;
+    if (!amount || amount < 1) return;
     setConverting(true);
     try {
       const res = await fetch(`${BASE_URL}/latest/${fromCurrency}`);
@@ -63,11 +66,9 @@ const CurrencyConverter = () => {
           setConvertedAmount("Conversion rate not available");
         }
       } else {
-        console.error("Conversion failed:", data["error-type"]);
         setConvertedAmount("Error during conversion");
       }
     } catch (error) {
-      console.error("Error fetching conversion rate:", error);
       setConvertedAmount("Error during conversion");
     } finally {
       setConverting(false);
@@ -76,13 +77,11 @@ const CurrencyConverter = () => {
 
   const handleFavorite = (currency) => {
     let updatedFavorites = [...favorites];
-
     if (favorites.includes(currency)) {
       updatedFavorites = updatedFavorites.filter((fav) => fav !== currency);
     } else {
       updatedFavorites.push(currency);
     }
-
     setFavorites(updatedFavorites);
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   };
@@ -111,7 +110,6 @@ const CurrencyConverter = () => {
           setCurrency={setFromCurrency}
           handleFavorite={handleFavorite}
         />
-        {/* swap currency button */}
         <div className="flex justify-center -mb-5 sm:mb-0">
           <button
             onClick={swapCurrencies}
@@ -141,28 +139,20 @@ const CurrencyConverter = () => {
           ref={inputRef}
           value={amount}
           onChange={(e) => {
-            if (e.target.value < 1) {
-              setAmount(1);
-            } else setAmount(e.target.value);
+            const value = parseFloat(e.target.value);
+            setAmount(value < 1 ? 1 : value);
           }}
           type="number"
           className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-1"
         />
       </div>
 
-      <div className="flex justify-end mt-6">
-        <button
-          onClick={convertCurrency}
-          className={`px-5 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
-            converting ? "animate-pulse" : ""
+      {convertedAmount && (
+        <div
+          className={`mt-6 text-lg font-medium text-right ${
+            converting ? "text-yellow-600" : "text-black"
           }`}
         >
-          Convert
-        </button>
-      </div>
-
-      {convertedAmount && (
-        <div className="mt-4 text-lg font-medium text-right text-green-600">
           Converted Amount: {convertedAmount}
         </div>
       )}
