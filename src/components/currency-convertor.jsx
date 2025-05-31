@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CurrencyDropdown from "./dropdown";
 import { HiArrowsRightLeft } from "react-icons/hi2";
 
@@ -18,6 +18,9 @@ const CurrencyConverter = () => {
     JSON.parse(localStorage.getItem("favorites")) || ["PKR", "EUR"]
   );
 
+  // useRef hook to auto-focus the input
+  const inputRef = useRef(null);
+
   // Fetch list of currencies (keys from conversion_rates for USD base)
   const fetchCurrencies = async () => {
     try {
@@ -33,9 +36,12 @@ const CurrencyConverter = () => {
       console.error("Error fetching currencies:", error);
     }
   };
+
   useEffect(() => {
     setAnimate(true);
+    inputRef.current?.focus(); // Focus the input on mount
   }, []);
+
   useEffect(() => {
     fetchCurrencies();
   }, []);
@@ -87,11 +93,12 @@ const CurrencyConverter = () => {
   };
 
   return (
-    <div className={`max-w-xl mx-auto my-10 p-5 rounded-lg shadow-md bg-white/30 backdrop-blur-md transition-all duration-700 ease-in-out transform ${
-    animate ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-  }` }
->
-      <h2 className="mb-5 text-2xl font-semibold text-white-700 ">
+    <div
+      className={`max-w-xl mx-auto my-10 p-5 rounded-lg shadow-md bg-white/30 backdrop-blur-md transition-all duration-700 ease-in-out transform ${
+        animate ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+      }`}
+    >
+      <h2 className="mb-5 text-2xl font-semibold text-white-700">
         Currency Converter
       </h2>
 
@@ -131,6 +138,7 @@ const CurrencyConverter = () => {
           Amount:
         </label>
         <input
+          ref={inputRef}
           value={amount}
           onChange={(e) => {
             if (e.target.value < 1) {
@@ -145,8 +153,9 @@ const CurrencyConverter = () => {
       <div className="flex justify-end mt-6">
         <button
           onClick={convertCurrency}
-          className={`px-5 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
-          ${converting ? "animate-pulse" : ""}`}
+          className={`px-5 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
+            converting ? "animate-pulse" : ""
+          }`}
         >
           Convert
         </button>
